@@ -1,6 +1,6 @@
 ---
 layout: list
-title: bayesian
+title: Bayesian
 slug: bayesian
 menu: true
 order: 1
