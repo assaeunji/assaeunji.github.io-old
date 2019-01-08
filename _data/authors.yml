@@ -12,11 +12,12 @@ author1:
 
   # This photo will be used in the about section
   picture:
-    path:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
+    path:            assaeunji.github.io/assets/img/icebear.png
+    
     # srcset is optional, but can be used to provide higher res versions for retina displays
     srcset:
-      1x:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
-      2x:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
+      1x:            assaeunji.github.io/assets/img/icebear.png
+      2x:            assaeunji.github.io/assets/img/icebear.png
 
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
