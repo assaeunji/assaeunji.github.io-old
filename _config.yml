@@ -122,11 +122,11 @@ defaults:
 
 # Set your Google Analytics id to receive `pageview` events.
 # To remove Google Anaylics from your page, remove the line below.
-# google_analytics:      UA-XXXXXXXX-X
+google_analytics:      UA-131755578-1
 
 # Setting a disqus shortname will enable the comment section on
 # pages with `comments: true` in the front matter.
-# disqus:                <disqus_shortname>
+disqus:                eunjis-blog
 
 # Setting a tinyletter username will enable the newsletter subscription box.
 # tinyletter:            <tinyletter_username>
@@ -312,8 +312,6 @@ kramdown:
   input: GFM
   excerpt_seperator: "<!--- more -->"
 mathjax: true
-google_analytics_token: 'UA-131755578-1' # leave blank if you don't want google analytics
-disqus_short_name: "eunjis-blog" # leave blank if you don't want disqus  
   #footnote_backlink:   '&#x21a9;&#xfe0e;'
   #math_engine:         mathjax
   #math_engine_opts:
