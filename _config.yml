@@ -308,9 +308,11 @@ titles_from_headings:
   strip_title:         true
   collections:         true
 
+markdown: kramdown
 kramdown:
   input: GFM
-  excerpt_seperator: "<!--- more -->"
+excerpt_seperator: "<!--- more -->"
+
 mathjax: true
   #footnote_backlink:   '&#x21a9;&#xfe0e;'
   #math_engine:         mathjax
