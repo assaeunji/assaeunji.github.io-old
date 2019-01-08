@@ -15,8 +15,8 @@ author1:
     path:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
     # srcset is optional, but can be used to provide higher res versions for retina displays
     srcset:
-      1x:            https://placehold.it/128x128
-      2x:            https://placehold.it/256x256
+      1x:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
+      2x:            https://www.github.com/assaeunji/assaeunji.github.io/assets/icons/icon.jpg
 
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
