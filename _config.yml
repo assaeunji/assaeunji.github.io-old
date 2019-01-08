@@ -24,8 +24,7 @@ title:                 Eunji's blog
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  "Best Jekyll Theme by a Mile".
-  **Hydejack** is your presence on the web, featuring a blog, portfolio, and resume.
+  "Bayesian Statistics from Basic".
 
 # A shorter description for the sidebar.
 tagline:               >
@@ -190,12 +189,12 @@ hydejack:
     always:            false
 
     # Set to `true` to use the dark theme based on visitors' local time.
-    dynamic:           true
+    dynamic:           false
     sunrise:           6
     sunset:            18
 
     # Set to `true` to allow visitors to switch between light and dark mode.
-    icon:              true
+    icon:              false
 
   # ⚡️ DANGER ZONE ⚡️
   # ----------------
@@ -310,11 +309,16 @@ titles_from_headings:
   collections:         true
 
 kramdown:
-  footnote_backlink:   '&#x21a9;&#xfe0e;'
-  math_engine:         mathjax
-  math_engine_opts:
-    preview:           true
-    preview_as_code:   true
+  input: GFM
+  excerpt_seperator: "<!--- more -->"
+mathjax: true
+google_analytics_token: 'UA-131755578-1' # leave blank if you don't want google analytics
+disqus_short_name: "eunjis-blog" # leave blank if you don't want disqus  
+  #footnote_backlink:   '&#x21a9;&#xfe0e;'
+  #math_engine:         mathjax
+  #math_engine_opts:
+  #  preview:           true
+  #  preview_as_code:   true
 
 compress_html:
   comments:            ["<!-- ", " -->"]
