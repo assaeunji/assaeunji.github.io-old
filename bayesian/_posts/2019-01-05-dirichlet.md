@@ -2,7 +2,7 @@
 layout: post
 title: "[디리슐레 분포] 다항분포와의 켤레관계"
 date: 2019-01-05 
-categories: Bayesian
+categories: [bayesian]
 tag: [dirichlet, bayesian, multinomial]
 comments: true
 ---
