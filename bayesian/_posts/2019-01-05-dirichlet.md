@@ -6,7 +6,7 @@ categories: [bayesian]
 tag: [dirichlet, bayesian, multinomial]
 comments: true
 ---
-
+## **"[디리슐레 분포] 다항분포와의 켤레관계"**
 ### **사전분포: 디리슐레 분포**
 디리슐레 분포 (Dirichlet dist.)는 다항분포 (Multinomial dist.)의 확률을 모델링하는 분포로, 베타분포의 확장판이다. 베타분포가 이항분포의 사전분포로 쓰여 켤레 관계를 형성하는 것처럼 multivariate 버전으로 디리슐레 분포가 다항분포의 *사전분포*로 쓰인다.
 또한, 디리슐레 분포의 무한대 확장판 "디리슐레 과정"은 클러스터 개수를 조정하는 사전분포로 쓰인다. 이는 다음 포스트에서 설명할 것이다. 
@@ -41,7 +41,7 @@ p(\boldsymbol{\theta}|\boldsymbol{\alpha})&=\frac{\Gamma(\sum_{i=1}^{k+1}\alpha_
 \end{aligned}
 $$
 
-cf. 베타분포는 감마분포를 따르는 확률변수 $2$개로 구성된다. 즉, $$G_1,\ G_2$$가 각각 $$G_1\sim \text{Gam}(\alpha_1,1)$$, $$G_2 \sim \text{Gam}(\alpha_2,1)$$를 따른다 할 때, $$\theta = \frac{X_1}{X_1+X_2} \sim \text{Beta}(\alpha_1, \alpha_2)$$이다.
+cf. 베타분포는 감마분포를 따르는 확률변수 $$2$$개로 구성된다. 즉, $$G_1,\ G_2$$가 각각 $$G_1\sim \text{Gam}(\alpha_1,1)$$, $$G_2 \sim \text{Gam}(\alpha_2,1)$$를 따른다 할 때, $$\theta = \frac{X_1}{X_1+X_2} \sim \text{Beta}(\alpha_1, \alpha_2)$$이다.
 
 ### **가능도: 다항분포**
 

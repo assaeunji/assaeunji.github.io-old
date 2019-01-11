@@ -309,15 +309,15 @@ titles_from_headings:
   collections:         true
 
 kramdown:
-  input: GFM
-  excerpt_seperator: "<!--- more -->"
+  #input: GFM
+  #excerpt_seperator: "<!--- more -->"
 
-mathjax: true
-  #footnote_backlink:   '&#x21a9;&#xfe0e;'
-  #math_engine:         mathjax
-  #math_engine_opts:
-  #  preview:           true
-  #  preview_as_code:   true
+#mathjax: true
+  footnote_backlink:   '&#x21a9;&#xfe0e;'
+  math_engine:         nil
+  math_engine_opts:
+    preview:           true
+    preview_as_code:   true
 
 compress_html:
   comments:            ["<!-- ", " -->"]
