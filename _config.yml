@@ -314,7 +314,7 @@ kramdown:
 
 #mathjax: true
   footnote_backlink:   '&#x21a9;&#xfe0e;'
-  math_engine:         nil
+  math_engine:         mathjax
   math_engine_opts:
     preview:           true
     preview_as_code:   true
