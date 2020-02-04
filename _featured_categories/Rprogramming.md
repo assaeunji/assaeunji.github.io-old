@@ -3,9 +3,10 @@ layout: list
 title: R programming
 slug: R programming
 menu: true
-order: 2
+order: 3
+comments: true
 description: >
-  R programming
+  R과 관련한 함수를 정리하고자 합니다.
 
 accent_color: rgb(38,139,210)
 accent_image:
