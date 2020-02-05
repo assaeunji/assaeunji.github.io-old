@@ -1,12 +1,12 @@
 ---
 layout: list
-title: R programming
-slug: R programming
+title: Machine Learning
+slug: Machine Learning
 menu: true
-order: 3
+order: 2
 comments: true
 description: >
-  R과 관련한 함수를 정리하고자 합니다.
+  머신러닝 예제 및 실습
 
 accent_color: rgb(38,139,210)
 accent_image:
