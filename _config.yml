@@ -24,11 +24,11 @@ title:                 BE GEEKY
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description:           >
-  "괴짜가 되자".
+  "좋아하는 걸 잘하는 게 목표입니다".
 
 # A shorter description for the sidebar.
 tagline:               >
-  "괴짜가 되자"
+  "좋아하는 걸 잘하는 게 목표입니다"
 
 # A list of keywords for your blog
 keywords:              []
