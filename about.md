@@ -4,10 +4,12 @@ order: 6
 ---
 # About
 
-<span style="background-color: #FFFF00">  
+<mark style="background-color: #fff5b1">
+  <font size = 2>  
 영문학과 통계학을 전공하지만 통계학을 더 좋아합니다.
-</span>
-<mark style="background-color: lightblue">Marked text</mark>
+  </font>
+</mark>
+
 
 * 이화여대 영문학과 졸업
 * 고려대학교 통계학과 석사과정 졸업
