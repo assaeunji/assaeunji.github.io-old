@@ -10,4 +10,9 @@ order: 6
 
 * 이화여대 영문학과 졸업
 * 고려대학교 통계학과 석사과정 졸업
-* 관심사: 베이지안 비모수 모형(Bayesian semiparametric regression, Dirichlet process, Gaussian process, Dynamaic linear model, Dynamic network, Social network analysis)
+* 관심사: 
+  * Bayesian semiparametric regression
+  * Bayesian Latent Dirichlet Allocation 
+  * Dynamic linear model
+  * Social network analysis
+  * Bayesian Optimization
