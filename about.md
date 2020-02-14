@@ -1,6 +1,8 @@
 ---
 menu: true
 order: 6
+/assets/img/blog/.png
+image: assets/img/icebear.png
 ---
 # About
 
