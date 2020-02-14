@@ -4,9 +4,10 @@ order: 6
 ---
 # About
 
-<mark style="background-color: #fff5b1", size=2>
+<mark style="background-color: #fff5b1">
 영문학과 통계학을 전공하지만 통계학을 더 좋아합니다.
 </mark>
+{:.lead}
 
 
 * 이화여대 영문학과 졸업
