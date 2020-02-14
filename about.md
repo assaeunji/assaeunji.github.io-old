@@ -4,10 +4,8 @@ order: 6
 ---
 # About
 
-<mark style="background-color: #fff5b1">
-  <font size = 2>  
+<mark style="background-color: #fff5b1", size=2>
 영문학과 통계학을 전공하지만 통계학을 더 좋아합니다.
-  </font>
 </mark>
 
 
