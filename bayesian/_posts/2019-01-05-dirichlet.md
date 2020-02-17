@@ -6,6 +6,7 @@ categories: [bayesian]
 tag: [dirichlet, bayesian, multinomial]
 comments: true
 ---
+# Dirichlet Distribution: Conjugate Prior for Multinomial Distribution
 
 ## **목차**
 {:.no_toc}
@@ -64,7 +65,7 @@ $$
 
 ---
 
-## **Conjugacy: Dirichlet & Multinomial Distribution **
+## **Conjugacy: Dirichlet & Multinomial Distribution**
 디리슐레 분포(Dirichlet distribution)는 다항분포 (Multinomial distribution)의 확률 $$\theta_i$$를 모델링하는데 쓰이는 사전분포이다. 여기서 Conjugacy가 성립한다.  그렇다면 여기서 conjugacy를 어떻게 해석해야 할까? 사전분포가 디리슐레 분포이고, 가능도가 다항분포이면 사후분포도 다시 디리슐레 분포를 따를 때, (즉, 사전분포와 사후분포의 형태가 같을 때) "켤레성"(conjugacy)을 띤다고 말한다.
 
 ---
