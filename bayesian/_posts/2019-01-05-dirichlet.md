@@ -1,19 +1,26 @@
 ---
 layout: post
-title: "[디리슐레 분포] 다항분포와의 켤레관계"
+title: "Dirichlet Distribution: Conjugate Prior for Multinomial Distribution"
 date: 2019-01-05 
 categories: [bayesian]
 tag: [dirichlet, bayesian, multinomial]
 comments: true
 ---
-## **[디리슐레 분포] 다항분포와의 켤레관계**
-### **사전분포: 디리슐레 분포**
+
+## **목차**
+{:.no_toc}
+0. this unordered seed list will be replaced by toc as unordered list
+{:toc}
+
+---
+
+## **Prior: Dirichlet Distribution**
 디리슐레 분포 (Dirichlet dist.)는 다항분포 (Multinomial dist.)의 확률을 모델링하는 분포로, 베타분포의 확장판이다. 베타분포가 이항분포의 사전분포로 쓰여 켤레 관계를 형성하는 것처럼 multivariate 버전으로 디리슐레 분포가 다항분포의 *사전분포*로 쓰인다.
 또한, 디리슐레 분포의 무한대 확장판 "디리슐레 과정"은 클러스터 개수를 조정하는 사전분포로 쓰인다. 이는 다음 포스트에서 설명할 것이다. 
 
  디리슐레 분포의 정의는 다음과 같다.
 
-#### **정의**
+### Definition
 $$G_1,G_2,\ldots, G_{k+1}$$개의 **독립**인 확률변수가 각각 $$\alpha_i$$와 $$\beta=1$$의 모수를 가진 감마분포를 따른다 하자. ($$i=1,\ldots,k$$). 즉,
 
 $$
@@ -43,11 +50,11 @@ $$
 
 cf. 베타분포는 감마분포를 따르는 확률변수 $$2$$개로 구성된다. 즉, $$G_1,\ G_2$$가 각각 $$G_1\sim \text{Gam}(\alpha_1,1)$$, $$G_2 \sim \text{Gam}(\alpha_2,1)$$를 따른다 할 때, $$\theta = \frac{X_1}{X_1+X_2} \sim \text{Beta}(\alpha_1, \alpha_2)$$이다.
 
-### **가능도: 다항분포**
+## **Likelihood: Multinomial Distribution**
 
 다항분포도 디리슐레분포와 마찬가지로, 이항분포의 multivariate 버전이다. 즉, 2개의 선택지 대신 $$k$$개의 선택지가 있을 때, 각각 선택지가 $$\theta_i$$의 확률로 뽑힌다. 명확한 정의는 다음과 같다.
 
-#### **정의**
+### Definition
 확률 벡터 $$\mathbf{X} = (X_1,\ldots,X_k)$$가 모수 $$n$$과 $$\boldsymbol{\theta} = (\theta_1,\ldots, \theta_k)$$를 가진 다항분포일 때, 다음의 p.d.f를 가진다:
 
 $$
@@ -55,10 +62,14 @@ f(\boldsymbol{x}|n,\boldsymbol{\theta}) = \binom{n}{x_1,\ldots, x_k} \theta_1^{x
 $$
 * $$\sum_j p_j = 1$$
 
-### **다항분포와의 켤레관계**
+---
+
+## **Conjugacy: Dirichlet & Multinomial Distribution **
 디리슐레 분포(Dirichlet distribution)는 다항분포 (Multinomial distribution)의 확률 $$\theta_i$$를 모델링하는데 쓰이는 사전분포이다. 여기서 Conjugacy가 성립한다.  그렇다면 여기서 conjugacy를 어떻게 해석해야 할까? 사전분포가 디리슐레 분포이고, 가능도가 다항분포이면 사후분포도 다시 디리슐레 분포를 따를 때, (즉, 사전분포와 사후분포의 형태가 같을 때) "켤레성"(conjugacy)을 띤다고 말한다.
 
-### **사후분포: 디리슐레 분포**
+---
+
+## **Posterior: Dirichlet Distribution**
 사후분포 (posterior)는 베이즈 정리에 따라 사전분포 (prior)와 가능도 (likelihood)의 곱에 비례한다. 여기서의 사전분포와 가능도는 앞에서 정의한 것과 같이 
 * 사전분포: $$k$$개의 선택지에 대한 확률 $$\theta_i$$의 분포인 **디리슐레 분포**
 
