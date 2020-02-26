@@ -21,11 +21,13 @@ code, pre {
 code {
   @extend .color-transition;
   padding: .25em .5em;
-  // background-color: var(--gray-bg);
   background-color: var(--gray-bg);
   font-size: .85em;
 }
 
+code, tt{
+  background: #ffff00    // 배경색 변경
+}
 .pre-base {
   margin-left: -1rem;
   margin-right: -1rem;
