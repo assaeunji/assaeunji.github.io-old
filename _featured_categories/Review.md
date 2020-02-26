@@ -8,9 +8,14 @@ comments: true
 description: >
   어플 및 프로그램 리뷰 / 후기
 
-accent_color: rgb(38,139,210)
-accent_image:
-  background: rgb(32,32,32)
-  overlay:    false
----
+# accent_color: rgb(38,139,210)
+# accent_image:
+#   background: rgb(32,32,32)
+#   overlay:    false
+# ---
 
+accent_color: rgb(79,177,186)
+accent_image: /assets/img/background5.jpg
+  #background: rgb(32,32,32)
+  #overlay:    false
+---

@@ -69,7 +69,7 @@ paginate_path:         /page-:num/
 # ========================================================================================
 
 # Sidebar image and theme color of the site.
-accent_image:          /assets/img/background1.jpg
+accent_image:          /assets/img/background5.jpg
 accent_color:          rgb(79,177,186)
 
 # This is used for the `theme-color` meta tag,
