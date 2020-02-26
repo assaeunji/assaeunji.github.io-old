@@ -14,7 +14,7 @@ description: >
 #   overlay:    false
 # ---
 
-accent_color: rgb(79,177,186)
+accent_color: rgb(14,130,145)
 accent_image: /assets/img/background4.jpg
   #background: rgb(32,32,32)
   #overlay:    false

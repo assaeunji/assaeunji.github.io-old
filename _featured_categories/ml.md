@@ -13,7 +13,7 @@ description: >
 #   background: rgb(32,32,32)
 #   overlay:    false
 # ---
-accent_color: rgb(148, 100, 179)
+accent_color: rgb(14,130,145)
 accent_image: /assets/img/background4.jpg
   #background: rgb(32,32,32)
   #overlay:    false
