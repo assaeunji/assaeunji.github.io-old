@@ -9,8 +9,8 @@ description: >
   베이즈 통계
 
 accent_color: rgb(38,139,210)
-accent_image:
-  background: rgb(32,32,32)
-  overlay:    false
+accent_image: /assets/img/background1.jpg
+  # background: rgb(32,32,32)
+  # overlay:    false
 ---
 
