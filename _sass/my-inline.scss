@@ -14,29 +14,3 @@
   }
 }
 */
-code,
-tt
-	padding: 3px 5px
-	font-family: $fontMonospace
-	font-size: 13px
-	line-height: 20px
-	background: $codebackground
-	margin: 0 5px 0 5px
-	border-radius: 5px
-	font-weight: 400
-
-pre
-	box-sizing: border-box
-	margin: 0 0 1.75em 0
-	width: 100%
-	padding: 5px 10px
-	font-family: $fontMonospace
-	font-size: 1.2rem
-	line-height: 2rem
-	overflow: auto
-	code
-		background: none
-		margin: 0 0 0 -5px
-	background: #fff
-	border: 1px solid $epsilon
-	border-radius: 2px
