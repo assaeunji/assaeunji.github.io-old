@@ -16,23 +16,22 @@
 // <<<<< LINK
 code, pre {
   font-family: var(--code-font-family);
+  background-color:#E2EC9A;
+  color:gray
 }
 
 code {
   @extend .color-transition;
   padding: .25em .5em;
-  background-color: var(--gray-bg);
+  //background-color: var(--gray-bg);
   font-size: .85em;
 }
 
-code, tt{
-  background: #ffff00    // 배경색 변경
-}
 .pre-base {
   margin-left: -1rem;
   margin-right: -1rem;
   padding: 1rem;
-  background-color: var(--gray-bg);
+  //background-color: var(--gray-bg);
 
   // Prevent code linebreaks and allow side-scrolling for better readability on mobile
   overflow-x: auto;
