@@ -3,7 +3,7 @@ layout: post
 title: "Bayesian A/B Testing"
 date: 2020-02-27 
 categories: [Bayesian]
-tag: [bayesian,ABtesting]
+tag: [bayesian,ABtesting, Multinomial, Dirichlet, Binomial, ]
 ---
 # Bayesian A/B Testing
 
@@ -108,8 +108,215 @@ $$
 \end{aligned}
 $$
 
-따라서 무정보 사전 분포인 Beta(1,1)를 가정했을 때, A 디자인에 따른 전환율의 사후 분포는 $$\text{Beta}(1+120, 1+1300-120)$$, B 디자인에 따른 전환율의 사후 분포는 $$\text{Beta}(1+125, 1+1275-125)$$를 따릅니다.
+따라서 무정보 사전 분포인 Beta(1,1)를 가정했을 때, A 디자인에 따른 전환율의 사후 분포는 $$\text{Beta}(1+120, 1+1300-120) = \text{Beta}(121, 1181)$$, B 디자인에 따른 전환율의 사후 분포는 $$\text{Beta}(1+125, 1+1275-125)=\text{Beta}(126,1151)$$를 따릅니다.
 
 사후 분포에서 난수를 생성한 후 평균을 구하면 각 전환율의 추정치를 구할 수 있습니다. 이를 파이썬으로 구현하면 다음과 같습니다.
 
-안녕
+~~~python
+from IPython.core.pylabtools import figsize
+from matplotlib import pyplot as plt
+from scipy import stats as st 
+import numpy as np
+
+visit_A = 1300
+visit_B = 1275
+
+conversion_A = 120
+conversion_B = 125
+
+alpha = 1
+beta  = 1
+n_samples = 1000
+print(alpha)
+
+posterior_A = st.beta(alpha+conversion_A,beta+visit_A-conversion_A)
+posterior_B = st.beta(alpha+conversion_B,beta+visit_B-conversion_B)
+posterior_samples_A = st.beta(alpha+conversion_A,beta+visit_A-conversion_A).rvs(n_samples)
+posterior_samples_B = st.beta(alpha+conversion_B,beta+visit_B-conversion_B).rvs(n_samples)
+
+# posterior mean 
+print((posterior_samples_A > posterior_samples_B).mean())
+~~~
+~~~
+[Output] 0.31355
+~~~
+
+결과값인 0.31355은 A 디자인의 전환율이 B 디자인의 전환율보다 높을 확률이 31.36%정도밖에 되지 않음을 의미합니다. 다시 말하면, B 디자인 전환율이 A의 전환율보다 높을 확률이 68.64%이죠.
+
+A 디자인의 전환율과 B 디자인의 전환율의 사후분포는 다음과 같이 그릴 수 있습니다. 오른쪽 그림은 단순히 왼쪽 그림을 확대한 그림입니다.
+
+~~~python
+#------------------------------------------------------------------
+# Posterior Dist of A and B
+fig,axes = plt.subplots(1,2,figsize=(10,4))
+x = np.linspace(0,1,1000)
+i=0
+for ax in axes:
+    ax.plot(x, posterior_A.pdf(x), label = "posterior of A: Beta(121,1181)")
+    ax.plot(x, posterior_B.pdf(x), label = "posterior of B: Beta(126,1151)")
+    ax.set_xlabel("Value")
+    ax.set_ylabel("Density")
+    if i==1:
+        ax.set_xlim(0.05, 0.15)
+    i+=1
+axes[0].legend()
+~~~
+
+![](../images/abtest-post1.png)
+
+그림에서 보듯이, B 디자인의 전환율의 사후분포가 A보다 오른쪽에 위치함을 알 수 있습니다. 이를 통해 B 전환율이 A보다 어느 정도 높음을 확인할 수 있습니다 (앞에서 사후분포의 샘플 중 68.64% 정도는 A보다 B를 통한 전환율이 높음을 학인하였습니다).
+
+---
+
+## **Expected Revenue Analysis**
+
+AB test를 더 자세하게 알아보기 전 기대 수익 (Expected Revenue)을 베이지안 관점에서 보는 방법에 대해 알아봅시다. 만약 어떤 웹사이트의 기대 수익이 
+
+$$
+E[R] = 79 p_1 + 49 p_2 + 25 p_3 + 0\cdot p_4
+$$
+
+로 정의가 되고, $$p_1,\ p_2,\ p_3$$은 각각 $79, $49, $25 가격 플랜을 선택할 확률이고 $$p_4$$는 아무 플랜을 선택하지 않을 확률이라 가정합시다. 이 확률들은 더하면 1이 된다는 제약조건을 가지고 있습니다.
+
+$$
+p_1+p_2+p_3+p_4=1
+$$
+
+이 때의 가능도 함수, 사전 분포는 어떻게 될까요? 
+정답은 이항 분포와 베타 분포의 확장판인 **다항 분포 (Multinomial Distribution)**와 **디리클레 분포 (Dirichlet Distribution)**입니다.
+
+이에 대한 자세한 정의는 [이 포스트](../_posts/2019-01-05-dirichlet.md)에서 확인할 수 있습니다. 
+
+### **가능도: 다항 분포**
+
+만약 $$n$$명의 사람이 $79, $49, $25 가격 플랜 중 하나를 선택할 때 각 플랜 별 사람수를 $$x_1, x_2, x_3$$라 하고 선택하지 않은 사람 수를 $$x_4$$라 하면 가능도는 다항 분포를 따르고 다음과 같이 주어집니다.
+
+$$
+f(\text{Data}|p_1, \cdots, p_4) = \binom{n}{x_1,\ldots, x_4} p_1^{x_1} \cdots p_4^{x_4},\ \sum_{j=1}^{4}p_j=1
+$$
+
+### **사전 분포: 디리클레 분포**
+
+디리클레 분포는 베타 분포의 확장판으로 다음과 같이 모수 $$\alpha_1,\ldots,\alpha_4$$를 가집니다.
+
+$$
+\begin{aligned}
+P\left(p_1, \cdots, p_4\right)&=\frac{1}{\mathrm{B}(\alpha)} p_1^{\alpha_{1}-1} p_2^{\alpha_{2}-1} p_3^{\alpha_{3}-1} p_4^{\alpha_{4}-1} \\
+\mathrm{B}(\alpha)&=\frac{\prod_{i=1}^{k} \Gamma\left(\alpha_{i}\right)}{\Gamma\left(\sum_{i=1}^{k} \alpha_{i}\right)}(\Gamma \text { is gamma function })
+\end{aligned}
+$$
+
+베타 분포와 마찬가지로 Dirichlet (1,1,1,1)도 무정보 사전 분포입니다.
+
+### **사후 분포: 디리클레 분포**
+사전 분포로 Dirichlet(1,1,1,1)을, 가능도로 $$(x_{1},\ldots,x_4)$$를 관측한 다항 분포를 따른다할 때, 사후 분포는 켤레성으로 인해 다시 디리클레 분포인 Dirichlet ($$1+x_1, 1+x_2,1+x_3,1+x_4$$)를 따릅니다.
+
+$$
+\begin{aligned}
+P(p_1,\ldots,p_0 |\text{Data}) &\propto f(\text{Data}|p_1,\ldots,p_0) \times P(p_1,\ldots,p_0)\\
+&=\binom{n}{x_1,\ldots, x_4} p_1^{x_1} \cdots p_4^{x_0} \times \frac{1}{\mathrm{B}(1)} p_1^{0} p_2^{0} p_3^{0} p_4^{0}\\
+&\underbrace{\propto p_1^{x_1+1-1}p_2^{x_2+1-1}p_3^{x_3+1-1}p_4^{x_4+1-1}}_{\text{Dirichlet}(1+x_1,1+x_2,1+x_3,1+x_4)\text{꼴}}
+\end{aligned}
+$$
+
+---
+## **Extension to an A/B Test**
+
+이제 앞에서 배운 내용들을 합쳐봅시다. A 디자인과 B 디자인이 있고, 이 디자인에 따른 기대 수익에 관심이 있습니다. 가격 플랜은 마찬가지로 월 $79, $49, $25의 세 개의 플랜이 있다 가정합시다. 관측된 데이터는 다음과 같습니다.
+
+| 디자인 | 총 사람 수 | $79 선택 | $49 선택 | $25 선택 | 선택 X |
+|:-----:|:----------:|:-----:|:-----:|:-----:|:-----:| 
+|A|1000|10|49|80|864|
+|B|2000|45|84|200|1671|
+|합계|3000|55|133|280|2535|
+
+우리의 관심사는 
+ * A와 B 중 어떤 디자인이 기대 수익을 더 많이 가져오는 지
+ * 기대 수익이 어느 정도로 더 많은 지
+입니다. 
+
+### **A와 B 중 어떤 디자인이 기대 수익이 많을까?**
+
+이제 A 디자인과 B 디자인을 통해 $79, $49, $25의 세 가격 플랜을 선택하거나 아무 플랜도 선택하지 않을 확률을 각 디자인마다 디리클레 사전 분포를 가정합니다. 이 확률에 대해 사전 지식이 없으므로 두 디자인의 확률들의 분포 모두 Dirichlet (1,1,1,1)로 가정합니다.
+
+또한, A 디자인과 B 디자인의 가격 플랜 별 사람 수는 다항 분포의 가능도를 가지게 됩니다. A 디자인에 노출된 사람수는 $$n_A=1000$$, A 디자인에 노출된 사람 중 $75, $49, $25 가격 플랜을 선택한 사람 수를 각각 $$x_{1A}=10, x_{2A}=49,x_{3A}=80$$, 아무 플랜도 선택하지 않은 사람 수를 $$x_{4A}=864$$라 합시다. 
+B 디자인도 마찬가지로 생각하면 $$n_B = 2000, x_{1B}=45,x_{2B}=84, x_{3B}=200, x_{4B}=1671$$입니다.
+
+따라서, A 디자인과 B 디자인의 선택지별 확률의 사후 분포는 디리클레 분포를 따릅니다. A 디자인의 경우 Dirichlet ($$1+x_{1A},1+x_{2A},1+x_{3A},1+x_{4A}$$) = Dirichlet(11,50,81,865)를, B 디자인의 경우 Dirichlet ($$1+x_{1B},1+x_{2B},1+x_{3B},1+x_{4B}$$) = Dirichlet(45,84,200,1671$$)을 따르게 됩니다. 
+
+이를 파이썬으로 구현하면 `p_A`와 `p_B`가 바로 사후 분포의 랜덤 샘플이 됩니다.
+
+~~~python
+n_A = 1000
+x1_A= 10
+x2_A= 46
+x3_A= 80
+x4_A=n_A-x1_A-x2_A-x3_A
+
+n_B = 2000
+x1_B= 45
+x2_B= 84
+x3_B= 200
+x4_B=n_B-x1_B-x2_B-x3_B
+alpha_A=np.array([1+x1_A,1+x2_A,1+x3_A,1+x4_A])
+alpha_B=np.array([1+x1_B,1+x2_B,1+x3_B,1+x4_B])
+p_A = st.dirichlet(alpha_A).rvs(n_samples)
+p_B = st.dirichlet(alpha_B).rvs(n_samples)
+~~~
+
+하지만 저희의 관심사는 **기대 수익**입니다. 기대 수익은 앞에서 구한 것처럼 `expected_revenue`함수를 통해 기대 수익의 사후 분포를 구할 수 있습니다. A 디자인과 B 디자인에 따른 기대 수익 사후 분포의 랜덤 샘플은 `ER_A`와 `ER_B`에 저장됩니다.
+
+~~~python
+ER_A=expected_revenue(p_A)
+ER_B=expected_revenue(p_B)
+~~~
+
+이 사후 분포는 특정한 분포를 따르지는 않지만, 랜덤 샘플들이 어떻게 분포되어 있는 지 확인할 수 있습니다. 이를 히스토그램으로 확인하면 다음과 같습니다.
+
+~~~python
+plt.hist(ER_A,label="E[R] of A",bins=50,histtype="stepfilled",alpha=.8)
+plt.hist(ER_B,label="E[R] of B",bins=50,histtype="stepfilled",alpha=.8)
+plt.xlabel("Value"); plt.ylabel("Density")
+plt.legend(loc="best")
+~~~
+
+![](../images/abtest-multi2.png)
+
+이 히스토그램을 보면 <font color='orange'> B 디자인의 기대 수익 분포</font>가 <font color='#4c92c3'>A 디자인의 기대 수익 분포</font> 보다 오른쪽에 위치함을 확인할 수 있습니다. 즉, **B 디자인이 A 디자인보다 더 많은 기대 수익을 낼 것이라 예상할 수 있습니다.**
+
+그럼 B 디자인의 기대 수익이 A 디자인의 기대 수익보다 높을 확률은 얼마나 될까요? 아래의 코드처럼 계산하면 그 값은 `0.981`로 매우 높은 확률을 보입니다.
+
+~~~python
+print((ER_B>ER_A).mean())
+~~~
+
+### **기대 수익이 어느 정도로 더 많을까?**
+
+B 디자인의 기대 수익이 어느 정도로 A 디자인보다 더 많은 지 확인하는 방법은 이 두 기대수익의 차 (difference)의 사후 분포를 보는 것입니다. 
+
+~~~python
+plt.hist(ER_B-ER_A,histtype="stepfilled",color="red",alpha=0.5,bins=50)
+plt.vlines(0,0,70,linestyle='solid')
+plt.xlabel("Value")
+plt.ylabel("Density")
+plt.ylim(0,70)
+plt.title("Posterior Distribution of Difference of E[$R_B$]-E[$R_A$]")
+~~~
+
+![](../images/abtest-multi3.png)
+
+위의 그림을 보면 기대 수익의 차가 대부분 양수임을 볼 수 있습니다. 이의 점 추정치는 `1.168`이 됩니다.
+~~~python
+print((ER_B-ER_A).mean().round(3)) #1.168
+~~~
+
+---
+## **Beyond T-Test**
+t-test는 전통적인 frequentist 가설 검정 방법으로 정해진 값에서 얼마나 표본 평균 (sample average)이 벗어나 있는 지를 봅니다. 이를 A/B test에 적용하면 **2표본-가설검정**으로 A와 B의 전환율 평균값이 같은 지를 판단합니다. 
+
+John K. Kruschke는 이를 베이지안 버전으로 확장해 [BEST (Bayesian Estimation Supersedes t-test)](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)를 고안했습니다.
+
+---
+## **Reference**
+[Elia님의 a/b 테스팅이란 무엇인가](https://brunch.co.kr/@eliarhocapt/14)
+[John K. Kruschke, Bayesian Estimation Supersedes the t Test](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)
