@@ -4,8 +4,13 @@ title: "Bayesian A/B Testing"
 date: 2020-02-27 
 categories: [Bayesian]
 tag: [bayesian,ABtesting, Multinomial, Dirichlet, Binomial, ]
+comment: true
 ---
 # Bayesian A/B Testing
+
+* 베이지안 관점에서 A/B Testing을 하는 방법에 대해 간단히 적어놓았습니다.
+* 전체 코드는 [여기](https://github.com/assaeunji/bayes-ABtest)에서 확인할 수 있습니다. 
+---
 
 ## **Contents**
 {:.no_toc}
@@ -14,9 +19,12 @@ tag: [bayesian,ABtesting, Multinomial, Dirichlet, Binomial, ]
 
 ---
 ## **Terminology**
-* A/B Testing
-* Counterfactual
+* <mark style='background-color: #fff5b1'> A/B Testing </mark>: A와 B 대안이 있을 때 어떤 대안이 더 효과적인 지를 알아보기 위해 대상자를 임의로 절반으로 나누어 그 인과적 관계를 살펴보는 방법  
 * Conversion rate
+* <mark style='background-color: #fff5b1'>CTR (Click-Through Rate)</mark>: 클릭 수
+* <mark style='background-color: #fff5b1'>인과 관계 (Causal Relationship)</mark>: 설명 변수가 원인, 반응 변수가 결과가 되어 그 원인으로 결과가 얼마나 바뀌는 지를 추정
+* <mark style='background-color: #fff5b1'>연관 관계 (Association Relationship)</mark>: 주로 회귀 분석에서 쓰이는 용어로,  설명 변수와 반응 변수의 연관이 있을 때 연관 관계가 있다고 말함. 즉, 단순히 설명 변수가 한 단위 증가했을 때, 결과가 얼마나 어떻게 바뀌는 지를 추정
+* <mark style='background-color: #fff5b1'>가상적 대응치 (Counterfactual)</mark>: 각 개체 별 처리 여부에 반대되는 결과. 예를 들어 처리를 받은 사람이 **처리를 받지 않았을 때 일어날 가상적 결과**가 가상적 대응치에 해당함
 
 ---
 ## **Summary**
@@ -24,10 +32,23 @@ tag: [bayesian,ABtesting, Multinomial, Dirichlet, Binomial, ]
 * Bayesian A/B testing은 무엇이 다를까?
 ---
 
-## **Conversion Testing**
+## **What is A/B Testing?**
 ![](../images/abtest-1.png)
 출처: https://www.optimizely.com/ab-testing/
 {:.figure}
+
+[권정민님의 실무에서 활용하는 A/B 테스트 발표자료](https://www.slideshare.net/cojette/ab-150118831)에 따르면 A/B Testing은 사용자를 대상으로 한 **실제 환경**에서의 실험으로, A와 B에 따라 관심 있는 지표가 어떻게 바뀌는 지를 판단하는 방법입니다. 여기서 관심있는 지표는 양적으로 확인할 수 있는 지표들로, 클릭율(CTR), 전환율(Conversion Rate)등이 있습니다. 예를 들어, A와 B 디자인의 광고 중 B 광고의 클릭율 (= 디자인 클릭 수 / 디자인 노출 수)이 높기 때문에 B 디자인이 더 효과적이다 예상할 수 있죠. 
+
+그럼 A보다 B가 낫다고 말하기 위해서는 얼마나 더 지표들의 값이 높아야할까요? 이를 판단하기 위해 고안된 방법이 바로 A/B Testing입니다. 그러나, **실제 환경**에서의 테스팅은 관심 밖의 요인들을 통제할 수 있는 실험 환경처럼 구성할 수 없습니다. 다른 요인들이 순수 효과를 방해하기도, 혹은 촉진해서 A / B 디자인으로 CTR이 얼마나 높아졌는 지 정확히 추정하기 어렵기 때문입니다. 
+
+따라서, A/B test는 A와 B로 인한 순수 효과 (인과 관계)를 보는 것이 목적이기 때문에 **유사 실험 환경**을 구축합니다. 이를 위해 A/B Test 설계 과정은 다음과 같습니다.
+
+![](../images/abtest-process.png)
+권정민님의 발표 자료 발췌
+{:.figure}
+
+---
+## **Conversion Testing**
 
 어떤 웹사이트에서 A와 B 디자인 중 어느 쪽이 구매로 전환되는 비율이 높은 지 알아본다고 가정합시다. 즉, 웹사이트에 방문한 사람들이 A와 B 디자인 중 어느 디자인에 더 현혹되어 구매하게 되는 지를 알아보는 것이죠. 이를 위해 방문자에게 랜덤하게 A와 B 디자인 중 하나를 보여주고 구매 여부를 체크합니다. 이러한 과정을 **Conversion Testing**이라 합니다. 여기서 가설은 "A보다 B가 구매로의 전환율이 높을 것이다"와 같은 내용이 됩니다. 
 
@@ -311,12 +332,65 @@ print((ER_B-ER_A).mean().round(3)) #1.168
 ~~~
 
 ---
-## **Beyond T-Test**
-t-test는 전통적인 frequentist 가설 검정 방법으로 정해진 값에서 얼마나 표본 평균 (sample average)이 벗어나 있는 지를 봅니다. 이를 A/B test에 적용하면 **2표본-가설검정**으로 A와 B의 전환율 평균값이 같은 지를 판단합니다. 
+## **Frequentist vs. Bayesian t-test**
+t-test는 전통적인 빈도론적인(frequentist) 가설 검정 방법으로 정해진 값에서 얼마나 표본 평균 (sample average)이 벗어나 있는 지를 봅니다. 이를 A/B test에 적용하면 **2표본-가설검정**으로, 이 책에서는 A 디자인과 B 디자인에 따른 웹사이트 이용 시간 (duration)이 같은 지, 다른 지를 테스트하였습니다. 이전의 A/B test와 달리 이 검정의 주체는 연속된 시간으로 **연속형**이기 때문에 t-test를 사용합니다. 그 외에도 클릭수 (CTR; Click-Through Rate)또한 t-test의 검정 주체가 됩니다.
 
-John K. Kruschke는 이를 베이지안 버전으로 확장해 [BEST (Bayesian Estimation Supersedes t-test)](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)를 고안했습니다.
+
+John K. Kruschke는 이를 베이지안 버전으로 확장해 [BEST (Bayesian Estimation Supersedes t-test)](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)를 고안했습니다. 기존의 t-test과의 차이점은 다음과 같습니다.
+
+질문 | Frequentist  | Bayesian|
+|:---:|:---:|:---:|
+이상치가 포함되어도 괜찮은가?| No | Yes |
+가설검정을 어떻게 하는가?| p-value 기반| HDI 기반|
+
+
+### **이상치가 포함되어도 괜찮은가?**
+자료에 이상치가 포함되어도 괜찮은가의 여부는 가설 검정을 하기 전 **데이터의 분포를 어떤 것으로 가정하느냐**에 따라 다릅니다. Frequentist t-test는 데이터가 정규 분포를 따른다 가정하지만, Bayesian은 데이터가 t 분포를 따른다 가정합니다.
+
+정규 분포와 t 분포의 차이는 tail의 두께입니다. 정규분포에 비해 t분포는 heavy tail이고 자유도 $$\nu$$가 커질수록 정규분포에 근사합니다. heavy tail이라는 말은 데이터의 분산이 큼을 의미하고, 그만큼 이상치를 포함한다 말할 수 있습니다.
+
+![](../images/abtest-tdist.png)
+
+Frequentist t-test 방법은 A와 B 방법에 각각 노출된 두 표본 집단이 정규 분포를 따른다 가정하고, 표본 평균과 표본 분산을 통해 t통계량 ($$t_{obs}$$)를 산출합니다. 만약 데이터가 정규분포를 따르지 않을 경우 이상치를 제거하여 보정합니다. 
+
+이에 비해, BEST는 데이터가 t 분포를 따른다 가정하고 이상치가 있어도 분포 가정을 위배하지 않기 때문에 가설 검정 결과를 신뢰할 수 있습니다. 
+
+### **가설 검정을 어떻게 하는가?**
+
+[p-value](https://ko.wikipedia.org/wiki/%EC%9C%A0%EC%9D%98_%ED%99%95%EB%A5%A0)는 귀무 가설이 맞다는 전제 하에, 표본에서 실제로 관측된 통계치와 '**같거나 더 극단적인**' 통계치가 관측될 확률입니다. 만약  귀무가설이 "A와 B 간의 CTR 차이가 없다"라면, 실제로 관측된 CTR 차이에 대한 통계치 ($$t_{obs}$$)를 구해 귀무가설 하의 t 분포 ($$T\sim t(\nu)$$) 내에서 $$t_{obs}$$와 같거나 더 극단적인 통계치가 관측될 확률 $$P(T\geq t_{obs})$$이 p-value가 됩니다.
+
+Frequentist는 이 p-value가 유의 수준 (보통 0.05)보다 작을 때 귀무 가설을 기각합니다. 그러나 이 p-value는 표본 크기에 따라 바뀌는 문제가 있습니다. 
+A와 B디자인의 CTR이 차이를 보여도 표본 크기가 커지면 p-value도 작아져 가설을 기각하는 경우가 많아지게 되는 것이죠. 이에 대한 자세한 예시는 * [박장시님의 A/B 테스트에서 p-value에 휘둘리지 않기](https://boxnwhis.kr/2016/04/15/dont_be_overwhelmed_by_pvalue.html)에서 확인하실 수 있습니다. 또한 p-value는 데이터가 정규 분포를 따른다 가정하고 계산된 값이기 때문에 이상치와도 연관이 있는 문제입니다.
+
+이에 비해 BEST는 p-value 대신 HDI (Highest Density Interval)을 이용합니다. HDI란 분포에서 가장 높은 확률 밀도를 나타내는 범위를 의미하고, 이 범위 안에 있는 값들은 가장 신뢰할만한 (credible) 값들입니다. 아래의 그림처럼, 분포에서 95% HDI에 속한 값들은 분포의 95%를 커버하고, 가장 높은 확률을 보이는 값들로 구성되어 있습니다.
+
+![](../images/abtest-hdi.jpg)
+출처: https://www.sciencedirect.com/topics/mathematics/highest-density-interval
+{:.figure}
+
+HDI는 Frequentist의 신뢰 구간 (Confidence Interval)과 비슷하지만 해석 상 더 직관적입니다. "95%의 확률로 모수가 이 구간 안에 있다"는 걸 말할 수 있는 건 HDI뿐입니다. Frequentist 95% 신뢰 구간은 무한 번 표본 추출할 때마다 구한 신뢰구간 중 95%이 참값인 모수를 포함함을 의미합니다. 만약 100번의 표본을 추출했다면 그 각각의 신뢰구간 중 95개가 참값을 포함한다는 것이죠. 그러나 사실상 무한 번 표본을 추출하는 것이 불가능하니 이는 가상적인 내용이고 이론 상 존재하는 내용입니다. 따라서 HDI가 만약 0을 포함하고 있는 구간이라면 가설 검정 결과는 귀무 가설을 지지할 것이고, 포함하지 않는다면 대립 가설을 지지하게 됩니다. 
+
+
+---
+## **BEST Procedure for A/B Testing**
+A와 B 디자인에 따른 웹사이트 이용시간의 차이를 BEST로 검정해봅시다. 이를 위해 데이터를 다음과 같이 만들었습니다.
+
+
+
+
+![](../images/abtest-bayesian.png)
+BEST 모형의 Graphical Representation. (출처: [Bayesian Methods for Hackers](https://g.co/kgs/zjSCqV))
+{:.figure}
+
+위의 그림에서 보듯이 BEST모형의 데이터에 해당하는 $$x_i$$에 평균 $$\mu$$와 표준편차 $$\sigma$$, 자유도가 $$\nu$$인 t 분포를 가정합니다. $$\mu, \sigma, \nu$$는 모두 사전 분포를 갖습니다. 
+
+1. $$\mu_A$$
+
+
 
 ---
 ## **Reference**
-[Elia님의 a/b 테스팅이란 무엇인가](https://brunch.co.kr/@eliarhocapt/14)
-[John K. Kruschke, Bayesian Estimation Supersedes the t Test](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)
+* [Elia님의 a/b 테스팅이란 무엇인가](https://brunch.co.kr/@eliarhocapt/14)
+* [John K. Kruschke, Bayesian Estimation Supersedes the t Test](https://www.krigolsonteaching.com/uploads/4/3/8/4/43848243/kruschke2012jepg.pdf)
+* [권정민님의 실무에서 활용하는 A/B 테스트 발표자료](https://www.slideshare.net/cojette/ab-150118831)
+* [박장시님의 A/B 테스트에서 p-value에 휘둘리지 않기](https://boxnwhis.kr/2016/04/15/dont_be_overwhelmed_by_pvalue.html)
