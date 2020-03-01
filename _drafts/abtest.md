@@ -373,8 +373,30 @@ HDI는 Frequentist의 신뢰 구간 (Confidence Interval)과 비슷하지만 해
 
 ---
 ## **BEST Procedure for A/B Testing**
-A와 B 디자인에 따른 웹사이트 이용시간의 차이를 BEST로 검정해봅시다. 이를 위해 데이터를 다음과 같이 만들었습니다.
 
+A와 B 디자인에 따른 웹사이트 이용 시간의 차이를 BEST로 검정해봅시다. 이를 위해 A 디자인을 쓴 웹사이트의 이용시간은 평균이 30이고 표준편차가 4인 정규분포를 따르고, B 디자인을 쓴 웹사이트의 이용시간은 평균이 26, 표준편차가 7인 정규분포를 따르도록 데이터를 생성했습니다.
+각각 250명씩 A와 B 디자인에 노출되었다 가정했습니다.
+
+~~~python
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pymc as pm
+
+N=250
+mu_A, std_A = 30,4
+mu_B, std_B = 26,7
+
+duration_A = np.random.normal(mu_A,std_A,size=N)
+duration_B = np.random.normal(mu_B,std_B,size=N)
+
+print (duration_A[:8])
+~~~
+
+~~~python
+[32.02659946 26.90993164 30.21161752 30.35250668 27.86741011 30.49937549
+ 35.71616675 27.84751349]
+~~~
 
 
 
