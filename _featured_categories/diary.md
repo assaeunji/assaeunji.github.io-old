@@ -3,7 +3,7 @@ layout: list
 title: Diary
 slug: Diary
 menu: true
-order: 5
+order: 6
 comments: true
 description: >
   생각 / 다짐 / 계획
