@@ -1,6 +1,6 @@
 ---
 menu: true
-order: 6
+order: 7
 image: assets/img/icebear.png
 ---
 # About
