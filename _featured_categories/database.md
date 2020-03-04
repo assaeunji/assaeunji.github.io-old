@@ -1,12 +1,12 @@
 ---
 layout: list
-title: Database
-slug: Database
+title: Database / Cloud
+slug: Database / Cloud
 menu: true
 order: 3
 comments: true
 description: >
-  SQL / NoSQL 정리
+  Database / Cloud 정리 및 공부
 
 # accent_color: rgb(38,139,210)
 # accent_image:
