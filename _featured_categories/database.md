@@ -1,7 +1,7 @@
 ---
 layout: list
 title: Database / Cloud
-slug: Database / Cloud
+slug: db
 menu: true
 order: 3
 comments: true
