@@ -1,10 +1,11 @@
 ---
 menu: true
 order: 7
-image: assets/img/icebear.png
+ 
 ---
 # About
 
+![](../images/me.gif)
 <mark style="background-color: #fff5b1">
 영문학과 통계학을 전공하지만 통계학을 더 좋아합니다.
 </mark>
