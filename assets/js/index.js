@@ -1,5 +1,5 @@
 // 이미지 alt 속 내용을 캡션으로 만들어줌
-$(' p > img[alt]').replaceWith(function () {
+$('.page post mb6 > p > img[alt]').replaceWith(function () {
     return '<figure>'
         + '<a href="' + $(this).attr('src') + '" class="mg-link">'
         + '<img src="' + $(this).attr('src') + '"/></a>'
