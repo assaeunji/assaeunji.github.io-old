@@ -6,6 +6,7 @@ categories: [db]
 tag: [aws, cloud, ec2,scalability]
 comments: true
 ---
+
 #  AWS Scalability & Elastic Load Balancer (ELB) 이해하기
 * 이 글은 AWS에서 EC2 가상 서버에서 Scalability에 대한 개념과 ELB의 필요성을 정리한 글입니다.
 * [생활코딩 AWS 강의](https://opentutorials.org/course/2717/11294)를 보며 정리하였습니다.

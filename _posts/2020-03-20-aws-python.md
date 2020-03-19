@@ -1,7 +1,7 @@
 ---
 layout: post
 title: AWS EC2 인스턴스에서 Python, Jupyter Notebook 설치하기
-date: 2020-03-19
+date: 2020-03-20
 categories: [db]
 tag: [aws, cloud, ec2,python,jupyter-notebook]
 comments: true
@@ -21,7 +21,7 @@ comments: true
 {:toc}
 
 ---
-## Install Anaconda Python on EC2
+## **Install Anaconda Python on EC2**
 
 XShell을 통해 우분투 터미널에 접속합니다. 이후 다음의 코드를 통해 
 Python 3.6.2 기반의 Anaconda를 설치합니다.
@@ -111,7 +111,7 @@ sudo jupyter-notebook allow-root&
 ~~~
 
 ---
-## Implement Jupyter Notebook Server
+## **Implement Jupyter Notebook Server**
 
 이제 EC2 Server 안에 있는 Jupyter Notebook을 웹에서 보는 과정입니다.
 그 전에 AWS의 EC2 대시보드에서 **네트워크 보안 > 보안 그룹**에 들어가 8888번 포트 방화벽을 여는 과정이 필요합니다.
@@ -124,14 +124,12 @@ sudo jupyter-notebook allow-root&
 
 이와 같이 `Type`은 `Custom TCP`, `Port range`는 `8888`, `Source`는 `Anywhere`로 해서 `Save Rules`를 클릭합니다.
 
-![](../images/aws-python-ipv4.png)
-
-이제 다시 `인스턴스`로 돌아가서 자신의 IPv4 퍼블릭 IP을 확인하시고 
-`http://IP주소:8888/`로 접속합니다. 제 경우 `http://13.124.37.97:8888/`로 접속했습니다.
+이제 다시 `인스턴스`로 돌아가서 자신의 IPv4 퍼블릭 IP을 확인하시고 `http://IP주소:8888/`로 접속합니다. 제 경우 `http://13.124.37.97:8888/`로 접속했습니다.
 
 ![](../images/aws-python-jupyter.png)
 
 그럼 이런 창이 뜨면 아까 `ipython`에서 `passwd()`명령어를 통해 설정한 비밀 번호를 쳐서 접속합니다!
+
 
 
 그럼 이제 EC2 인스턴스에 구축한 Jupyter Notebook에 접속할 수 있습니다 :satisfied::satisfied:
