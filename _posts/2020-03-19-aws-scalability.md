@@ -7,8 +7,8 @@ tag: [aws, cloud, ec2,scalability]
 comments: true
 ---
 #  AWS Scalability & Elastic Load Balancer (ELB) 이해하기
-* 이 글은 AWS에서 EC2 가상 서버에서 Scalability에 대한 Issue를 정리한 글입니다.
-* [생활코딩 AWS 강의](https://opentutorials.org/course/2717)를 보며 정리하였습니다.
+* 이 글은 AWS에서 EC2 가상 서버에서 Scalability에 대한 개념과 ELB의 필요성을 정리한 글입니다.
+* [생활코딩 AWS 강의](https://opentutorials.org/course/2717/11294)를 보며 정리하였습니다.
 
 ---
 ## **Contents**
@@ -29,7 +29,7 @@ Scalability는 서버에서 과부하가 일어났을 때 대처할 수 있는 �
 이를 이해하기 위해서는 먼저 가상 머신 (Virtual Machine)에 대한 이해가 필요합니다.
 
 ---
-### **Virtual Machine?**
+## **Virtual Machine?**
 
 가상화는 EC2에 국한된 단어는 아니지만 클라우드 컴퓨팅에서 필요한 핵심적인 아이디어입니다. 
 가상머신은 물리적인 형태를 가지고 있지 않고 소프트웨어로 만든 가상의 컴퓨터를 의미합니다.
@@ -53,7 +53,7 @@ Scalability는 서버에서 과부하가 일어났을 때 대처할 수 있는 �
 
 ---
 ## **Strategies to Scalability**
-### Scale-up
+### **Scale-up**
 
 Scale-up은 컴퓨터 수요가 늘어나면 **더 좋은 컴퓨터로 업그레이드**하는 방식입니다. 
 이를 위해서는 인스턴스의 유형을 `t2.micro`에서 더 좋은 성능을 가진 유형으로 바꿔주면 됩니다. 
