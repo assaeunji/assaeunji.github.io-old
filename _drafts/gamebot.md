@@ -17,6 +17,7 @@ comments: true
 ---
 
 
+
 ---
 ## **Anomalies in Online Games**
 
@@ -30,6 +31,10 @@ Game money anomaly detection
 Abusing? 
 기획적으로 의도하지 않은 방식으로 게임 정보를 대량 획득하거나 도움을 주는 행위
 ex. 서비스 구현상의 헛점을 이용한 플레이, 해킹 툴 이용, 전체 채팅창에 도배로 광고하는 행위
+
+
+* Abusing, Cheating, Game Bot detection 차이 
+* 
 
 
 Hadoop + Python
