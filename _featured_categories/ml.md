@@ -1,7 +1,7 @@
 ---
 layout: list
 title: Machine Learning
-slug: Machine Learning
+slug: ml
 menu: true
 order: 2
 comments: true
