@@ -20,6 +20,8 @@ comments: true
 ## **brawlstats 설치**
 
 
+
+
 ---
 
 ## **OfficialAPI를 통한 토큰 생성**
